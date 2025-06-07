@@ -1,0 +1,48 @@
+# My build of st - a simple terminal
+
+This is my custom build of [st](https://st.suckless.org/), a simple terminal originally from the official [suckless](https://suckless.org/) website, customized to suit my personal needs and provide a minimal terminal with all necessary functionality.
+
+## Applied Patches
+
+I have applied the following patches to enhance functionality and appearance:
+
+- [`alpha`](https://st.suckless.org/patches/alpha/)
+- [`blinking_cursor`](https://st.suckless.org/patches/blinking_cursor/)
+- [`expected-anysize`](https://st.suckless.org/patches/anysize/)
+- [`glyph_wide_support`](https://st.suckless.org/patches/glyph_wide_support/)
+- [`glyph_wide_support_redraw_fix`](https://github.com/LukeSmithxyz/st/pull/349)
+- [`scrollback_mouse`](https://st.suckless.org/patches/scrollback/)
+- [`scrollback_ringbuffer`](https://st.suckless.org/patches/scrollback/)
+
+## Patch Functionality
+
+These patches enhance the usability and appearance of **st** by adding support for transparency, wide glyphs (including emojis and Nerd Fonts), and a blinking cursor. They also enable smooth mouse-based scrollback, a ring buffer for terminal history, and allow resizing the terminal to any dimensions. Together, they provide a more complete and modern terminal experience while keeping **st** lightweight and minimal.
+
+## Additional Customizations
+
+- Installed **CaskaydiaCove Nerd Font** at 18px size
+- Included the [Starship](https://starship.rs/) cross-shell promt
+- Changed colors to [Catppuccin Mocha](https://github.com/catppuccin/catppuccin) colorscheme using this [style guide](https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md)
+- Alpha patch enables transparency (needs a composite manager running)
+- I use `xcompmgr` on lightweight systems, and `picom` on more capable ones
+- Added 5px border padding around the terminal window
+
+## Key Bindings
+
+This build of **st** uses the default key bindings.  
+Clipboard-related shortcuts like `Alt + C` and `Alt + V` are configured in my `dwm` setup and call `cliphist` via `dmenu`.  
+You can find the clipboard history script here: [cliphist](https://github.com/sebastianzehner/cliphist)
+
+## Installation
+
+```bash
+git clone https://github.com/sebastianzehner/st
+cd st
+doas make install
+```
+
+## Disclaimer
+
+I'm not a professional developer - just a hobbyist sharing my personal setup.  
+This build is provided as-is, with no guarantees that it will work for you.  
+If something breaks, you're on your own — but feel free to explore, adapt, and improve!
