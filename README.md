@@ -7,6 +7,7 @@ This is my custom build of [st](https://st.suckless.org/), a simple terminal ori
 I have applied the following patches to enhance functionality and appearance:
 
 - [`alpha`](https://st.suckless.org/patches/alpha/)
+- [`boxdraw`](https://st.suckless.org/patches/boxdraw/)
 - [`blinking_cursor`](https://st.suckless.org/patches/blinking_cursor/)
 - [`expected-anysize`](https://st.suckless.org/patches/anysize/)
 - [`glyph_wide_support`](https://st.suckless.org/patches/glyph_wide_support/)
@@ -16,7 +17,7 @@ I have applied the following patches to enhance functionality and appearance:
 
 ## Patch Functionality
 
-These patches enhance the usability and appearance of **st** by adding support for transparency, wide glyphs (including emojis and Nerd Fonts), and a blinking cursor. They also enable smooth mouse-based scrollback, a ring buffer for terminal history, and allow resizing the terminal to any dimensions. Together, they provide a more complete and modern terminal experience while keeping **st** lightweight and minimal.
+These patches enhance the usability and appearance of **st** by adding support for transparency, a blinking cursor, wide glyphs (including emojis and Nerd Fonts), improve rendering of box drawing characters and block glyphs. They also enable smooth mouse-based scrollback, a ring buffer for terminal history, and allow resizing the terminal to any dimensions. Together, they provide a more complete and modern terminal experience while keeping **st** lightweight and minimal.
 
 ## Additional Customizations
 
