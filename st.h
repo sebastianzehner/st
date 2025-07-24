@@ -35,6 +35,7 @@ enum glyph_attribute {
 	ATTR_WIDE       = 1 << 9,
 	ATTR_WDUMMY     = 1 << 10,
 	ATTR_BOXDRAW    = 1 << 11,
+  ATTR_URL        = 1 << 12,
 	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
 };
 
@@ -113,6 +114,10 @@ void selextend(int, int, int, int);
 int selected(int, int);
 char *getsel(void);
 
+void highlighturlsline(int);
+void unhighlighturlsline(int);
+int followurl(int, int);
+
 size_t utf8encode(Rune, char *);
 
 void *xmalloc(size_t);
@@ -140,4 +145,9 @@ extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;
 extern unsigned int defaultcs;
+extern char *urlhandler;
+extern char urlchars[];
+extern char *urlprefixes[];
+extern const char *trailing_chars;
+extern int nurlprefixes;
 extern const int boxdraw, boxdraw_bold, boxdraw_braille;

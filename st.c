@@ -652,6 +652,143 @@ getsel(void)
 	return str;
 }
 
+/* Returns the earliest match of any prefix */
+char *
+strstrany(char *s, char **strs) {
+	char *match = NULL;
+	for (int i = 0; strs[i]; i++) {
+		char *p = strstr(s, strs[i]);
+		if (p && (!match || p < match)) {
+			match = p;
+		}
+	}
+	return match;
+}
+
+/* Highlights all URLs in the given terminal row using ATTR_URL */
+void
+highlighturlsline(int row) {
+	/* Allocate buffer for a plain ASCII copy of the row */
+	char *linestr = calloc(term.col + 1, 1);
+	if (!linestr)
+		return;
+
+	/* Copy printable ASCII characters from the screen buffer into linestr */
+	for (int j = 0; j < term.col; j++) {
+		Rune r = term.screen[0].buffer[row][j].u;
+		if (r < 127) {
+			linestr[j] = (char)r;
+		} else {
+			linestr[j] = ' '; // Non-ASCII replaced with space
+		}
+	}
+
+	linestr[term.col] = '\0';
+
+	/* Start scanning the line */
+	char *search = linestr;
+
+	while ((search = strstrany(search, urlprefixes))) {
+		int url_start = search - linestr;
+		int url_end = url_start;
+
+		/* Extend match until end of valid URL characters */
+		while (url_end < term.col && strchr(urlchars, linestr[url_end])) {
+			url_end++;
+    }
+
+		/* Remove trailing punctuation from URL */
+		while (url_end > url_start && strchr(trailing_chars, linestr[url_end - 1])) {
+			url_end--;
+    }
+
+		/* Skip invalid or zero-length URLs */
+		if (url_end <= url_start) {
+			search++;
+			continue;
+		}
+
+		/* Mark URL characters in terminal buffer with ATTR_URL */
+		for (int c = url_start; c < url_end; c++) {
+			term.screen[0].buffer[row][c].mode |= ATTR_URL;
+			tsetdirt(row, c); /* Mark cell for redraw */
+		}
+
+		/* Continue scanning after this URL */
+		search = linestr + url_end;
+	}
+	free(linestr);
+}
+
+/* Clears ATTR_URL highlighting from a given terminal row */
+void
+unhighlighturlsline(int row)
+{
+	for (int j = 0; j < term.col; j++) {
+		Glyph* g = &term.screen[0].buffer[row][j];
+		if (g->mode & ATTR_URL) {
+			g->mode &= ~ATTR_URL;
+			tsetdirt(row, j); /* Mark cell for redraw */
+		}
+	}
+}
+
+/* Opens the URL under the cursor by launching an external handler */
+int
+followurl(int col, int row) {
+  /* Allocate ASCII-only buffer for the line */
+	char *linestr = calloc(sizeof(char), term.col+1);
+	char *match;
+  /* Copy ASCII characters into buffer */
+	for (int i = 0; i < term.col; i++) {
+		if (term.screen[0].buffer[row][i].u < 127) {
+			linestr[i] = term.screen[0].buffer[row][i].u;
+		}
+	}
+
+  linestr[term.col] = '\0';
+
+	int url_start = -1, found_url = 0;
+  /* Search for URLs and check if the cursor is within any of them */
+	while ((match = strstrany(linestr + url_start + 1, urlprefixes))) {
+		url_start = match - linestr;
+		int url_end = url_start;
+    /* Extend match to end of URL */
+		for (; url_end < term.col && strchr(urlchars, linestr[url_end]); url_end++) {
+      /* continue scanning */
+    }
+
+    /* Strip trailing punctuation */
+    while (url_end > url_start && strchr(trailing_chars, linestr[url_end - 1])) {
+      url_end--;
+    }
+
+		/* Check if the given column is within this URL */
+    if (url_start <= col && col < url_end) {
+			found_url = 1;
+			linestr[url_end] = '\0';
+			break;
+		}
+	}
+	if (!found_url) {
+		free(linestr);
+		return 0;
+	}
+
+	/* Fork and launch external URL handler */
+  pid_t chpid;
+	if ((chpid = fork()) == 0) {
+		if (fork() == 0)
+			execlp(urlhandler, urlhandler, linestr + url_start, NULL);
+		exit(1);
+	}
+	if (chpid > 0)
+		waitpid(chpid, NULL, 0);
+  
+	free(linestr);
+  return 1;
+}
+
 void
 selclear(void)
 {
@@ -2763,7 +2900,9 @@ drawregion(int x1, int y1, int x2, int y2)
 	for (y = y1; y < y2; y++) {
 		if (term.dirty[y]) {
 			term.dirty[y] = 0;
-			xdrawline(TSCREEN.buffer[L], x1, y, x2);
+			unhighlighturlsline(y);
+      highlighturlsline(y);
+      xdrawline(TSCREEN.buffer[L], x1, y, x2);
 		}
 		L = (L + 1) % TSCREEN.size;
 	}
