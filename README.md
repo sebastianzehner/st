@@ -2,6 +2,8 @@
 
 This is my custom build of [st](https://st.suckless.org/), a simple terminal originally from the official [suckless](https://suckless.org/) website, customized to suit my personal needs and provide a minimal terminal with all necessary functionality.
 
+![st_terminal](img/st_terminal.webp)
+
 ## Applied Patches
 
 I have applied the following patches to enhance functionality and appearance:
@@ -38,7 +40,10 @@ This build of **st** uses the default key bindings, enhanced with:
 
 - `Shift + Enter`: Sends a newline character (to support multi-line input in TUI applications like [Pi](https://github.com/earendil-works/pi)).
 
-Clipboard-related shortcuts like `Alt + C` and `Alt + V` are configured in my `dwm` setup and call `cliphist` via `dmenu`.  
+Clipboard-related shortcuts like:
+
+- `Alt + C` and `Alt + V` are configured in my `dwm` setup and call `cliphist` via `dmenu`.
+
 You can find the clipboard history script here: [cliphist](https://github.com/sebastianzehner/cliphist)
 
 ## Installation
