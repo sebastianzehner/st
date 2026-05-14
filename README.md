@@ -34,7 +34,10 @@ The `clickurl` patch highlights URLs by underlining them and coloring them blue,
 
 ## Key Bindings
 
-This build of **st** uses the default key bindings.  
+This build of **st** uses the default key bindings, enhanced with:
+
+- `Shift + Enter`: Sends a newline character (to support multi-line input in TUI applications like [Pi](https://github.com/earendil-works/pi)).
+
 Clipboard-related shortcuts like `Alt + C` and `Alt + V` are configured in my `dwm` setup and call `cliphist` via `dmenu`.  
 You can find the clipboard history script here: [cliphist](https://github.com/sebastianzehner/cliphist)
 
