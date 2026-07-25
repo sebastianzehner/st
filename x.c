@@ -1497,13 +1497,6 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	}
 
 	if (dmode & DRAW_FG) {
-		/* Set the clip region because Xft is sometimes dirty. */
-		r.x = 0;
-		r.y = 0;
-		r.height = win.ch;
-		r.width = width;
-		XftDrawSetClipRectangles(xw.draw, winx, winy, &r, 1);
-
 		if (base.mode & ATTR_BOXDRAW) {
 			drawboxes(winx, winy, width / len, win.ch, fg, bg, specs, len);
 		} else {
@@ -1521,9 +1514,6 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 			XftDrawRect(xw.draw, fg, winx, winy + 2 * dc.font.ascent * chscale / 3,
 					width, 1);
 		}
-
-		/* Reset clip to none. */
-		XftDrawSetClip(xw.draw, 0);
 	}
 }
 
