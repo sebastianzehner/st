@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "CaskaydiaCove Nerd Font:pixelsize=18:antialias=true:autohint=true";
+static int borderpx = 5;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -73,11 +73,11 @@ static unsigned int cursorthickness = 2;
  *    Bold affects lines thickness if boxdraw_bold is not 0. Italic is ignored.
  * 0: disable (render all U25XX glyphs normally from the font).
  */
-const int boxdraw = 0;
-const int boxdraw_bold = 0;
+const int boxdraw = 1;
+const int boxdraw_bold = 1;
 
 /* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
-const int boxdraw_braille = 0;
+const int boxdraw_braille = 1;
 
 /*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
@@ -108,43 +108,47 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+	/* HEX Code */  /* numbers */  /* Catppuccin Mocha */
+	"#45475a",      /* color0  */  /* Surface 1        */
+	"#f38ba8",      /* color1  */  /* Red              */
+	"#a6e3a1",      /* color2  */  /* Green            */
+	"#f9e2af",      /* color3  */  /* Yellow           */
+	"#89b4fa",      /* color4  */  /* Blue             */
+	"#f5c2e7",      /* color5  */  /* Pink             */
+	"#94e2d5",      /* color6  */  /* Teal             */
+	"#a6adc8",      /* color7  */  /* Subtext 0        */
 
 	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
+	/* HEX Code */  /* numbers */  /* Catppuccin Mocha */
+	"#585b70",      /* color8  */  /* Surface 2        */
+	"#f37799",      /* color9  */  /* Bright Red       */
+	"#89d88b",      /* color10 */  /* Bright Green     */
+	"#ebd391",      /* color11 */  /* Bright Yellow    */
+	"#74a8fc",      /* color12 */  /* Bright Blue      */
+	"#f2aede",      /* color13 */  /* Bright Pink      */
+	"#6bd7ca",      /* color14 */  /* Bright Teal      */
+	"#bac2de",      /* color15 */  /* Subtext 1        */
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
-	"gray90", /* default foreground colour */
-	"black", /* default background colour */
+	/* Extended Colors */
+	/* HEX Code */  /* numbers */  /* Catppuccin Mocha */
+	"#fab387",      /* color16 */  /* Peach            */
+	"#f5e0dc",      /* color17 */  /* Rosewater        */
+	"#cdd6f4",                     /* Text             */ /* default foreground colour */
+	"#1e1e2e",                     /* Base             */ /* default background colour */
 };
-
+/* https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md */
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
+ * background, foreground, cursor, reverse cursor
  */
 unsigned int defaultfg = 258;
 unsigned int defaultbg = 259;
-unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultcs = 257;
+static unsigned int defaultrcs = 256;
 
 /*
  * https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h4-Functions-using-CSI-_-ordered-by-the-final-character-lparen-s-rparen:CSI-Ps-SP-q.1D81
@@ -358,6 +362,7 @@ static Key key[] = {
 	{ XK_Right,         XK_ANY_MOD,     "\033OC",        0,   +1},
 	{ XK_ISO_Left_Tab,  ShiftMask,      "\033[Z",        0,    0},
 	{ XK_Return,        Mod1Mask,       "\033\r",        0,    0},
+	{ XK_Return,        ShiftMask,      "\x1b[13;2~",    0,    0},
 	{ XK_Return,        XK_ANY_MOD,     "\r",            0,    0},
 	{ XK_Insert,        ShiftMask,      "\033[4l",      -1,    0},
 	{ XK_Insert,        ShiftMask,      "\033[2;2~",    +1,    0},
