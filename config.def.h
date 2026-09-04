@@ -138,7 +138,7 @@ static const char *colorname[] = {
 	/* Extended Colors */
 	/* HEX Code */  /* numbers */  /* Catppuccin Mocha */
 	"#fab387",      /* color16 */  /* Peach            */
-	"#f5e0dc",      /* color17 */  /* Rosewater        */
+	"#b4befe",      /* color17 */  /* Lavender         */
 	"#cdd6f4",                     /* Text             */ /* default foreground colour */
 	"#1e1e2e",                     /* Base             */ /* default background colour */
 };
@@ -166,7 +166,7 @@ static unsigned int defaultrcs = 256;
  * 7: blinking st cursor
  * 8: steady st cursor
  */
-static unsigned int cursorstyle = 1;
+static unsigned int cursorstyle = 6;
 static Rune stcursor = 0x2603; /* snowman ("☃") */
 
 /*
